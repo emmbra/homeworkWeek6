@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+function weatherDaily (citySearched) {
+    $.ajax({
+        url: "api.openweathermap.org/data/2.5/weather?q=" + citySearched + "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7",
+        type: "GET"
+    }).then(function(response) {
+        
+    })
+}
 
 
 
@@ -15,7 +23,6 @@ $(document).ready(function() {
 
 
 
-    
 });
 
 

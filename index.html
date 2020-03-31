@@ -9,65 +9,34 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link rel="stylesheet" href="assets/style/style.css" />
     <title>Weather Dashboard</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary text-center">
-        <span class="navbar-brand"><h1>Weather Dashboard</h1></span>
+      <span class="navbar-brand"><h1>Weather Dashboard</h1></span>
     </nav>
 
     <div class="container">
-        <div class="row">
-            <div class ="col-4">
-                <p>Search for a City: </p>
-                <input/>
-                <button class="btn btn-primary" id="searchBtn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-12">
-                        <h2>Daily Forecast:</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <p id="temperature"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <p id="humidity"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <p id="wind"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <p id="uv"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h2>5-Day Forecast:</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-    </div>
+      <div class="row">
+        <aside class="col-3">
+          <p>Search for a City:</p>
+          <input type="text" id="citySearched" />
+          <button class="btn btn-primary" id="searchBtn">
+            <i class="fa fa-search"></i>
+          </button>
+        </aside>
 
+        <div class="col-9">
+          <div id="daily-forecast"></div>
+          <div id="5-day-forecast"></div>
+        </div>
+      </div>
+    </div>
   </body>
 
   <script
