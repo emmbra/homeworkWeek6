@@ -10,6 +10,7 @@ $(document).ready(function() {
 
 function weatherDaily (citySearched) {
     // API request for daily weather conditions based on city searched for
+    var citySearched = $("#city-searched").val().trim();
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + citySearched + "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
         type: "GET"
@@ -37,12 +38,15 @@ function weatherDaily (citySearched) {
             //variables
             var uvValue = response.value;
             var uvIndex = $("<p>").addClass("card-text").text("UV Index: " + uvValue);
-            // come back to change colors based on uvValue, maybe use bootstrap buttons?
-                // btn-danger = red
-                // btn-warning = yellow
-                // btn-sucess = green
-                // UV Scale = 1-2 (low), 3-7 (medium), >7 (high)
-                // use if/else statements to set button colors, set button text to uvValue
+            var uvBtn = $("<button>").addClass("btn").text(uvValue);
+            // uvValue determines uv button colors
+            if (uvValue < 4) {
+                uvBtn.addClass("btn-success");
+            } else if (uvValue < 7) {
+                uvBtn.addClass("btn-warning");
+            } else {
+                uvBtn.addClass("btn-danger");
+            }
 
             // append created HTML elements to the card body
             dailyForecastCardBody.append(uvIndex);
@@ -61,8 +65,11 @@ function weatherDaily (citySearched) {
 
 // function to retrieve 5 day forecast based on city searched for
 function weatherFiveDay (citySearched) {
-
-}
+    $.ajax({
+        url: "api.openweathermap.org/data/2.5/forecast?q=" + citySearched + "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+        type: "GET"
+    }).then(function(response) {
+})
 
 
 
@@ -77,12 +84,6 @@ $("#search-btn").on("click", function () {
 
 
 // on click event listener for cities in the history bar
-
-
-
-
-
-
 
 
 
