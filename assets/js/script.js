@@ -1,97 +1,127 @@
 $(document).ready(function() {
 
+  // function to check local storage for saved searches and append items to history bar
 
-// function to check local storage for saved searches and append items to history bar
+  //function to retrieve the daily forecast for city searched and create html elements to display data
 
-
-
-//function to retrieve the daily forecast for city searched and create html elements to display data
-// add in localstorage.set here?
-
-function weatherDaily (citySearched) {
+  function weatherDaily(citySearched) {
     // API request for daily weather conditions based on city searched for
-    var citySearched = $("#city-searched").val().trim();
+    var citySearched = $("#city-searched")
+      .val()
+      .trim();
+    // localstorage.set here
+
+
+
+    // append current button to history bar and give them a class to be called on by event listener
+
+
+
     $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/weather?q=" + citySearched + "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+      url:
+        "https://api.openweathermap.org/data/2.5/weather?q=" +
+        citySearched +
+        "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+      type: "GET"
+    }).then(function(data) {
+      console.log("hello", data);
+      $("#daily-forecast").empty();
+
+      // variables
+      var dailyForecastCard = $("<div>").addClass("card");
+      var dailyForecastCardBody = $("<div>").addClass("card-body");
+      var cityName = $("<p>")
+        .addClass("card-title")
+        .text(data.name);
+      var weatherIcon = $("<img>").attr(
+        "src",
+        "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
+      );
+      var windSpeed = $("<p>")
+        .addClass("card-text")
+        .text("Wind Speed: " + data.wind.speed + "MPH");
+      var humidity = $("<p>")
+        .addClass("card-text")
+        .text("Humidity: " + data.main.humidity + "%");
+      var temperature = $("<p>")
+        .addClass("card-text")
+        .text("Temperature: " + data.main.temp + "°F");
+      var latitude = data.coord.lat;
+      var longitude = data.coord.lon;
+
+      // nested API request for daily UV conditions based on city searched for
+      $.ajax({
+        url:
+          "http://api.openweathermap.org/data/2.5/uvi?appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&lat=" +
+          latitude +
+          "&lon=" +
+          longitude,
+
         type: "GET"
-    }).then(function(response) {
-        $("#daily-forecast").empty();
+      }).then(function(response) {
+        //variables
+        var uvValue = response.value;
+        var uvIndex = $("<span>")
+          .addClass("card-text")
+          .text("UV Index: ");
+        var uvBtn = $("<button>")
+          .addClass("btn btn-sm")
+          .text(uvValue);
+        // uvValue determines uv button colors
+        if (uvValue < 4) {
+          uvBtn.addClass("btn-success");
+        } else if (uvValue < 7) {
+          uvBtn.addClass("btn-warning");
+        } else {
+          uvBtn.addClass("btn-danger");
+        }
 
-        // variables
-        var dailyForecastCard = $("<div>").addClass("card");
-        var dailyForecastCardBody = $("<div>").addClass("card-body");
-        var cityName = $("<p>").addClass("card-title").text(data.name);
-        var weatherIcon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-        var windSpeed = $("<p>").addClass("card-text").text("Wind Speed: " + data.wind.speed + "MPH");
-        var humidity = $("<p>").addClass("card-text").text("Humidity: " + data.main.humidity + "%");
-        var temperature = $("<p>").addClass("card-text").text("Temperature: " + data.main.temp + "°F");
-        var latitude = data.coord.lat;
-        var longitude = data.coord.lon;
+        // append created HTML elements to the card body
+        dailyForecastCardBody.append(uvIndex);
+        dailyForecastCardBody.append(uvBtn);
+        weatherFiveDay(citySearched);
+      });
 
-        // nested API request for daily UV conditions based on city searched for
-        $.ajax({
-            url: "https://api.openweathermap.org/data/2.5/uvi?appid=a9fa8e4a5cdb9ab82f25d7a62cad4d&lat=" + latitude + "&lon=" + longitude,
-    
-            type: "GET"
-        }).then(function(response) {
-
-            //variables
-            var uvValue = response.value;
-            var uvIndex = $("<p>").addClass("card-text").text("UV Index: " + uvValue);
-            var uvBtn = $("<button>").addClass("btn").text(uvValue);
-            // uvValue determines uv button colors
-            if (uvValue < 4) {
-                uvBtn.addClass("btn-success");
-            } else if (uvValue < 7) {
-                uvBtn.addClass("btn-warning");
-            } else {
-                uvBtn.addClass("btn-danger");
-            }
-
-            // append created HTML elements to the card body
-            dailyForecastCardBody.append(uvIndex);
-
-        });
-
-        //append created HTML elements to the card
-        dailyForecastCardBody.append(cityName, weatherIcon, temperature, windSpeed, humidity)
-        dailyForecastCard.append(dailyForecastCardBody);
-        $("#daily-forecast").append(dailyForecastCard);
+      //append created HTML elements to the card
+      dailyForecastCardBody.append(
+        cityName,
+        weatherIcon,
+        temperature,
+        windSpeed,
+        humidity
+      );
+      dailyForecastCard.append(dailyForecastCardBody);
+      $("#daily-forecast").append(dailyForecastCard);
     });
-}
 
+  }
 
-
-
-// function to retrieve 5 day forecast based on city searched for
-function weatherFiveDay (citySearched) {
+  // function to retrieve 5 day forecast based on city searched for
+  function weatherFiveDay(citySearched) {
     $.ajax({
-        url: "api.openweathermap.org/data/2.5/forecast?q=" + citySearched + "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
-        type: "GET"
+      url:
+        "http://api.openweathermap.org/data/2.5/forecast?q=" +
+        citySearched +
+        "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+      type: "GET"
     }).then(function(response) {
-})
-
-
-
-// on click event listener for search button
-$("#search-btn").on("click", function () {
+        console.log(response);
+    });
+  }
+  // on click event listener for search button
+  $("#search-btn").on("click", function() {
     var citySearched = $("#city-searched").val();
     $("#search-value").val("");
     weatherDaily(citySearched);
+  });
+
+  // on click event listener for cities in the history bar
+
+
+  // moment.js to add current date/time
+
+  
 });
-
-
-
-
-// on click event listener for cities in the history bar
-
-
-
-
-
-});
-
-
 // 1. user opens weather dashboard
 // 2. user can enter a city into a search bar
 //     a. build search bar
