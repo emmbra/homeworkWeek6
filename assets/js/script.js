@@ -2,8 +2,13 @@ $(document).ready(function() {
   // sets current date
   var currentDay = moment().format("LL");
 
-  // function to check local storage for saved searches and append items to history bar
-  // var history = JSON.parse()(localStorage.getItem("history")) || [];
+  // check local storage for searchHistory or create blank array 
+  var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  // append local storage items to history bar
+  for (var i = 0; i < searchHistory.length; i++) {
+    historyBar(searchHistory[i]);
+}
 
   // function to create items in history bar
   function historyBar(citySearched) {
@@ -17,8 +22,9 @@ $(document).ready(function() {
     var citySearched = $("#city-searched")
       .val()
       .trim();
-    // localstorage.set here
-    // localStorage.setItem("history", JSON.stringify(history));
+    // push citySearched to history array and then save to local storage
+    searchHistory.push(citySearched);
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
     // append citySearched to history bar
     historyBar();
@@ -115,7 +121,7 @@ $(document).ready(function() {
       // for loop to cycle through 5 day forecast api and pull same time forecast (18:00:00) for each day
       for (var i = 0; i < response.list.length; i++);
       {
-        if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
+        if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) { //better way to write this equality statement?
           //
 
           // create HTML elements

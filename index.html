@@ -17,19 +17,20 @@
     <title>Weather Dashboard</title>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-primary text-center">
-      <span class="navbar-brand"><h1>Weather Dashboard</h1></span>
-    </nav>
+    <header class="bg-primary text-center text-white pt-3 pb-3">
+      <h1>Weather Dashboard</h1>
+    </header>
 
     <div class="container">
       <div class="row">
-        <div class="col-3">
-          <h4 class="mt-4">Search for a City:</h4>
+        <div class="col-3 card">
+          <h5 class="mt-4">City Search:</h5>
           <input type="text" id="city-searched" />
           <button class="btn btn-primary" id="search-btn">
             <i class="fa fa-search"></i>
           </button>
-          <h4>History Bar:</h4>
+          <br>
+          <h5>Search History:</h5>
           <div id="history-bar">
 
           </div>
