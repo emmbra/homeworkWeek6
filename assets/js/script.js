@@ -1,21 +1,15 @@
 $(document).ready(function() {
-
-    // sets current date
-    var currentDay = moment().format("LL");
- 
+  // sets current date
+  var currentDay = moment().format("LL");
 
   // function to check local storage for saved searches and append items to history bar
   // var history = JSON.parse()(localStorage.getItem("history")) || [];
 
-
-  // function to create items in history bar 
+  // function to create items in history bar
   function historyBar(citySearched) {
     var cityList = $("<li>").text(citySearched);
     $("#history-bar").append(cityList);
   }
-
-
-
 
   //function to retrieve the daily forecast for city searched and create html elements to display data
   function weatherDaily(citySearched) {
@@ -26,10 +20,8 @@ $(document).ready(function() {
     // localstorage.set here
     // localStorage.setItem("history", JSON.stringify(history));
 
-
     // append citySearched to history bar
     historyBar();
-
 
     $.ajax({
       url:
@@ -44,7 +36,7 @@ $(document).ready(function() {
       // variables
       var dailyForecastCard = $("<div>").addClass("card");
       var dailyForecastCardBody = $("<div>").addClass("card-body");
-      var cityName = $("<p>")
+      var cityName = $("<h4>")
         .addClass("card-title")
         .text(response.name + ":");
       var dateTime = $("<span>").text(" " + currentDay);
@@ -94,7 +86,6 @@ $(document).ready(function() {
         // append created HTML elements to the card body
         dailyForecastCardBody.append(uvIndex);
         dailyForecastCardBody.append(uvBtn);
-        weatherFiveDay(citySearched);
       });
 
       //append created HTML elements to the card
@@ -109,7 +100,6 @@ $(document).ready(function() {
       dailyForecastCard.append(dailyForecastCardBody);
       $("#daily-forecast").append(dailyForecastCard);
     });
-
   }
 
   // function to retrieve 5 day forecast based on city searched for
@@ -121,32 +111,52 @@ $(document).ready(function() {
         "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
       type: "GET"
     }).then(function(response) {
-        console.log(response);
-        // for loop to cycle through 5 day forecast api and pull same time forecast for each day
-        for (var i = 0; i < response.list.length; i++); {
-          if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
-            var fiveDayCard = $("<div>").addClass("card");
-            var fiveDayCardBody = $("<div>").addClass("card-body");
-            var fiveDayDate = $("<h4>").addClass("card-title").text(response.list[i].dt_txt);
-            var fiveDayIcon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png");
-            var fiveDayTemp = $("<p>").addClass("card-text").text("Temperature: " + response.list[i].main.temp + "°F");
-            var fiveDayHumidity = $("<p>").addClass("card-text").text("Humidity: " + response.list[i].main.humidity + "%");
+      console.log("hi", response);
+      // for loop to cycle through 5 day forecast api and pull same time forecast (18:00:00) for each day
+      for (var i = 0; i < response.list.length; i++);
+      {
+        if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
+          //
 
-            fiveDayCardBody.append(fiveDayDate, fiveDayIcon, fiveDayTemp, fiveDayHumidity);
-            fiveDayCard.append(fiveDayCardBody);
-            $("#5-day-forecast").append(fiveDayCard);
-          }
+          // create HTML elements
+          var fiveDayCard = $("<div>").addClass("card");
+          var fiveDayCardBody = $("<div>").addClass("card-body");
+          var fiveDayDate = $("<h4>")
+            .addClass("card-title")
+            .text(response.list[i].dt_txt);
+          var fiveDayIcon = $("<img>").attr(
+            "src",
+            "https://openweathermap.org/img/w/" +
+              response.list[i].weather[0].icon +
+              ".png"
+          );
+          var fiveDayTemp = $("<p>")
+            .addClass("card-text")
+            .text("Temperature: " + response.list[i].main.temp + "°F");
+          var fiveDayHumidity = $("<p>")
+            .addClass("card-text")
+            .text("Humidity: " + response.list[i].main.humidity + "%");
+
+          // append created HTML elements
+          fiveDayCardBody.append(
+            fiveDayDate,
+            fiveDayIcon,
+            fiveDayTemp,
+            fiveDayHumidity
+          );
+          fiveDayCard.append(fiveDayCardBody);
+          $("#5-day-forecast").append(fiveDayCard);
         }
-
+      }
     });
   }
-
 
   // on click event listener for search button
   $("#search-btn").on("click", function() {
     var citySearched = $("#city-searched").val();
     $("#search-value").val("");
     weatherDaily(citySearched);
+    weatherFiveDay(citySearched);
   });
 
   // on click event listener for cities in the history bar
@@ -154,8 +164,6 @@ $(document).ready(function() {
     weatherDaily($(this).text());
     weatherFiveDay($(this).text());
   });
-
-  
 });
 // 1. user opens weather dashboard
 // 2. user can enter a city into a search bar
