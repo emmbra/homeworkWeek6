@@ -27,7 +27,7 @@ $(document).ready(function() {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
     // append citySearched to history bar
-    historyBar();
+    historyBar(citySearched);
 
     $.ajax({
       url:
@@ -42,7 +42,7 @@ $(document).ready(function() {
       // variables
       var dailyForecastCard = $("<div>").addClass("card");
       var dailyForecastCardBody = $("<div>").addClass("card-body");
-      var cityName = $("<h4>")
+      var cityName = $("<h5>")
         .addClass("card-title")
         .text(response.name + ":");
       var dateTime = $("<span>").text(" " + currentDay);
@@ -127,7 +127,7 @@ $(document).ready(function() {
           // create HTML elements
           var fiveDayCard = $("<div>").addClass("card");
           var fiveDayCardBody = $("<div>").addClass("card-body");
-          var fiveDayDate = $("<h4>")
+          var fiveDayDate = $("<h5>")
             .addClass("card-title")
             .text(response.list[i].dt_txt);
           var fiveDayIcon = $("<img>").attr(
@@ -159,14 +159,14 @@ $(document).ready(function() {
 
   // on click event listener for search button
   $("#search-btn").on("click", function() {
-    var citySearched = $("#city-searched").val();
+    var citySearched = $("#city-searched").val().trim();
     $("#search-value").val("");
     weatherDaily(citySearched);
     weatherFiveDay(citySearched);
   });
 
   // on click event listener for cities in the history bar
-  $("#history-bar").on("click", "li", function() {
+  $("#history-bar").on("click", "li", function(citySearched) {
     weatherDaily($(this).text());
     weatherFiveDay($(this).text());
   });
