@@ -5,6 +5,15 @@ $(document).ready(function() {
  
 
   // function to check local storage for saved searches and append items to history bar
+  // var history = JSON.parse()(localStorage.getItem("history")) || [];
+
+
+  // function to create items in history bar 
+  function historyBar(citySearched) {
+    var cityList = $("<li>").text(citySearched);
+    $("#history-bar").append(cityList);
+  }
+
 
 
 
@@ -15,11 +24,11 @@ $(document).ready(function() {
       .val()
       .trim();
     // localstorage.set here
- 
+    // localStorage.setItem("history", JSON.stringify(history));
 
 
-    // append current button to history bar and give them a class to be called on by event listener
-
+    // append citySearched to history bar
+    historyBar();
 
 
     $.ajax({
@@ -141,9 +150,10 @@ $(document).ready(function() {
   });
 
   // on click event listener for cities in the history bar
-
-
-  // moment.js to add current date/time
+  $("#history-bar").on("click", "li", function() {
+    weatherDaily($(this).text());
+    weatherFiveDay($(this).text());
+  });
 
   
 });
