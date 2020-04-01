@@ -15,25 +15,12 @@ $(document).ready(function() {
     var cityList = $("<li>").text(citySearched);
     $("#history-bar").append(cityList);
   }
-
+weatherDaily();
   //function to retrieve the daily forecast for city searched and create html elements to display data
-  function weatherDaily(citySearched) {
+  function weatherDaily(citySearched = "San Francisco") {
     // API request for daily weather conditions based on city searched for
-    var citySearched = $("#city-searched")
-      .val()
-      .trim();
-    // push citySearched to history array and then save to local storage
-    searchHistory.push(citySearched);
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-
-    // append citySearched to history bar
-    historyBar(citySearched);
-
     $.ajax({
-      url:
-        "https://api.openweathermap.org/data/2.5/weather?q=" +
-        citySearched +
-        "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+      url: `https://api.openweathermap.org/data/2.5/weather?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
       console.log("hello", response);
@@ -117,10 +104,11 @@ $(document).ready(function() {
         "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
       type: "GET"
     }).then(function(response) {
+      $("#5-day-forecast").empty();
       console.log("hi", response);
       // for loop to cycle through 5 day forecast api response and pull same time forecast (18:00:00) for each day
-      for (var i = 0; i < response.list.length; i++);
-      {
+      for (var i = 0; i < response.list.length; i++) {
+
         if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
           //better way to write this equality statement?
           //
@@ -128,9 +116,10 @@ $(document).ready(function() {
           // create HTML elements
           var fiveDayCard = $("<div>").addClass("card");
           var fiveDayCardBody = $("<div>").addClass("card-body");
+          var formattedDate = moment(response.list[i].dt_txt).format("LL");
           var fiveDayDate = $("<h5>")
             .addClass("card-title")
-            .text(response.list[i].dt_txt);
+            .text(formattedDate);
           var fiveDayIcon = $("<img>").attr(
             "src",
             "https://openweathermap.org/img/w/" +
@@ -158,6 +147,10 @@ $(document).ready(function() {
     });
   }
 
+
+//
+
+
   // on click event listener for search button
   $("#search-btn").on("click", function() {
     var citySearched = $("#city-searched")
@@ -166,6 +159,10 @@ $(document).ready(function() {
     $("#search-value").val("");
     weatherDaily(citySearched);
     weatherFiveDay(citySearched);
+    historyBar(citySearched);
+    // push citySearched to history array and then save to local storage
+    searchHistory.push(citySearched);
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   });
 
   // on click event listener for cities in the history bar
