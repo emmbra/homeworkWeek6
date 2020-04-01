@@ -2,13 +2,13 @@ $(document).ready(function() {
   // sets current date
   var currentDay = moment().format("LL");
 
-  // check local storage for searchHistory or create blank array 
+  // check local storage for searchHistory or create blank array
   var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
   // append local storage items to history bar
   for (var i = 0; i < searchHistory.length; i++) {
     historyBar(searchHistory[i]);
-}
+  }
 
   // function to create items in history bar
   function historyBar(citySearched) {
@@ -118,10 +118,11 @@ $(document).ready(function() {
       type: "GET"
     }).then(function(response) {
       console.log("hi", response);
-      // for loop to cycle through 5 day forecast api and pull same time forecast (18:00:00) for each day
+      // for loop to cycle through 5 day forecast api response and pull same time forecast (18:00:00) for each day
       for (var i = 0; i < response.list.length; i++);
       {
-        if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) { //better way to write this equality statement?
+        if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
+          //better way to write this equality statement?
           //
 
           // create HTML elements
@@ -159,18 +160,21 @@ $(document).ready(function() {
 
   // on click event listener for search button
   $("#search-btn").on("click", function() {
-    var citySearched = $("#city-searched").val().trim();
+    var citySearched = $("#city-searched")
+      .val()
+      .trim();
     $("#search-value").val("");
     weatherDaily(citySearched);
     weatherFiveDay(citySearched);
   });
 
   // on click event listener for cities in the history bar
-  $("#history-bar").on("click", "li", function(citySearched) {
+  $("#history-bar").on("click", "li", function() {
     weatherDaily($(this).text());
     weatherFiveDay($(this).text());
   });
 });
+
 // 1. user opens weather dashboard
 // 2. user can enter a city into a search bar
 //     a. build search bar
