@@ -1,7 +1,23 @@
+@keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+}
 .bg {
-  background-image: url(../images/bg-clouds.jpg);
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: whitesmoke (175, 175, 175);
+  background-image: url('../images/bg-clouds.jpg');    
+  background-size: 120% 100%;
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  animation: animatedBackground 50s linear infinite alternate;
+  /* height: 100%; 
+  display: relative;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-content: flex-start;
+  overflow: auto; */
+  /* padding-bottom: 50px; */
+}
+
+.uv-btn {
+  pointer-events: none;
 }

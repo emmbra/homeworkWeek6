@@ -64,7 +64,7 @@ $(document).ready(function() {
           .addClass("card-text")
           .text("UV Index: ");
         var uvBtn = $("<button>")
-          .addClass("btn btn-sm")
+          .addClass("btn btn-sm uv-btn")
           .text(uvValue);
         // uvValue determines uv button colors
         if (uvValue < 4) {
