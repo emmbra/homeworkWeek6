@@ -109,11 +109,12 @@ $(document).ready(function() {
           //
 
           // create HTML elements
-          // var fiveDayForecast = $("<div>").addclass("row").text("5 Day Forecast")
+          
           var fiveDayCard = $("<div>").addClass("card");
           var fiveDayCardBody = $("<div>").addClass("card-body");
           var formattedDate = moment(response.list[i].dt_txt).format("LL");
-          var fiveDayDate = $("<h5>")
+          var fiveDayCityName = $("<h5>").addClass("card-title").text(response.city.name + ": ");
+          var fiveDayDate = $("<span>")
             .addClass("card-title")
             .text(formattedDate);
           var fiveDayIcon = $("<img>").attr(
@@ -131,8 +132,9 @@ $(document).ready(function() {
 
           // append created HTML elements
           // $("#5-day-forecast").append(fiveDayForecast);
+          fiveDayCityName.append(fiveDayDate);
           fiveDayCardBody.append(
-            fiveDayDate,
+            fiveDayCityName,
             fiveDayIcon,
             fiveDayTemp,
             fiveDayHumidity
