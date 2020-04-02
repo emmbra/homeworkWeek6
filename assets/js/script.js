@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   // sets current date
   var currentDay = moment().format("LL");
 
@@ -29,7 +28,6 @@ $(document).ready(function() {
       url: `https://api.openweathermap.org/data/2.5/weather?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
- 
       $("#daily-forecast").empty();
 
       // variables
@@ -99,8 +97,7 @@ $(document).ready(function() {
   // function to retrieve 5 day forecast based on city searched for
   function weatherFiveDay(citySearched = "San Francisco") {
     $.ajax({
-      url:
-        `http://api.openweathermap.org/data/2.5/forecast?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
+      url: `http://api.openweathermap.org/data/2.5/forecast?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
       console.log(response);
