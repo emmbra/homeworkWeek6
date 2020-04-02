@@ -57,12 +57,7 @@ $(document).ready(function() {
 
       // nested API request for daily UV conditions based on city searched for
       $.ajax({
-        url:
-          "http://api.openweathermap.org/data/2.5/uvi?appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&lat=" +
-          latitude +
-          "&lon=" +
-          longitude,
-
+        url: `http://api.openweathermap.org/data/2.5/uvi?appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&lat=${latitude}&lon=${longitude}`,
         type: "GET"
       }).then(function(response) {
         //variables
@@ -105,9 +100,7 @@ $(document).ready(function() {
   function weatherFiveDay(citySearched = "San Francisco") {
     $.ajax({
       url:
-        "http://api.openweathermap.org/data/2.5/forecast?q=" +
-        citySearched +
-        "&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial",
+        `http://api.openweathermap.org/data/2.5/forecast?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
       $("#5-day-forecast").empty();
@@ -118,6 +111,7 @@ $(document).ready(function() {
           //
 
           // create HTML elements
+          // var fiveDayForecast = $("<div>").addclass("row").text("5 Day Forecast")
           var fiveDayCard = $("<div>").addClass("card");
           var fiveDayCardBody = $("<div>").addClass("card-body");
           var formattedDate = moment(response.list[i].dt_txt).format("LL");
@@ -138,6 +132,7 @@ $(document).ready(function() {
             .text("Humidity: " + response.list[i].main.humidity + "%");
 
           // append created HTML elements
+          // $("#5-day-forecast").append(fiveDayForecast);
           fiveDayCardBody.append(
             fiveDayDate,
             fiveDayIcon,
@@ -156,7 +151,7 @@ $(document).ready(function() {
     var citySearched = $("#city-searched")
       .val()
       .trim();
-    $("#search-value").val("");
+    $("#city-searched").val("");
     weatherDaily(citySearched);
     weatherFiveDay(citySearched);
     historyBar(citySearched);
