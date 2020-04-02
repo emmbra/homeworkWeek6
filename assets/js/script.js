@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   // sets current date
   var currentDay = moment().format("LL");
 
@@ -15,15 +16,20 @@ $(document).ready(function() {
     var cityList = $("<li>").text(citySearched);
     $("#history-bar").append(cityList);
   }
-weatherDaily();
+
+  // invoke functions to display weather info for default city
+  weatherDaily();
+  weatherFiveDay();
+
   //function to retrieve the daily forecast for city searched and create html elements to display data
+  //set default value to citySearched so page displays weather
   function weatherDaily(citySearched = "San Francisco") {
     // API request for daily weather conditions based on city searched for
     $.ajax({
       url: `https://api.openweathermap.org/data/2.5/weather?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
-      console.log("hello", response);
+ 
       $("#daily-forecast").empty();
 
       // variables
@@ -96,7 +102,7 @@ weatherDaily();
   }
 
   // function to retrieve 5 day forecast based on city searched for
-  function weatherFiveDay(citySearched) {
+  function weatherFiveDay(citySearched = "San Francisco") {
     $.ajax({
       url:
         "http://api.openweathermap.org/data/2.5/forecast?q=" +
@@ -105,10 +111,8 @@ weatherDaily();
       type: "GET"
     }).then(function(response) {
       $("#5-day-forecast").empty();
-      console.log("hi", response);
       // for loop to cycle through 5 day forecast api response and pull same time forecast (18:00:00) for each day
       for (var i = 0; i < response.list.length; i++) {
-
         if (response.list[i].dt_txt.indexOf("18:00:00") !== -1) {
           //better way to write this equality statement?
           //
@@ -147,10 +151,6 @@ weatherDaily();
     });
   }
 
-
-//
-
-
   // on click event listener for search button
   $("#search-btn").on("click", function() {
     var citySearched = $("#city-searched")
@@ -165,51 +165,15 @@ weatherDaily();
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   });
 
+  // on click event listener for clear button
+  $("#clear-btn").on("click", function() {
+    localStorage.clear();
+    $("#history-bar").empty();
+  });
+
   // on click event listener for cities in the history bar
   $("#history-bar").on("click", "li", function() {
     weatherDaily($(this).text());
     weatherFiveDay($(this).text());
   });
 });
-
-// 1. user opens weather dashboard
-// 2. user can enter a city into a search bar
-//     a. build search bar
-//         1. user types something and clicks
-//         2. on click, page displays current/future conditions for that city
-//             a. city name
-//             b. date
-//             c. weather condition icon
-//             d. temperature
-//             e. humidity
-//             f. wind speed
-//             g. uv index (comes from 2nd API call)
-//                 1. uv index is color coded
-//                     a. color #1 - favorable
-//                     b. color #2 - moderate
-//                     c. color #3 - severe
-//             h. 5 day forecast (comes from 3rd API call)
-//                 1. date
-//                 2. weather condition icon
-//                 3. temperature
-//                 4. humidity
-//         3. user can view search history
-//             a. history city on click presents current/future conditions for that city
-//         4. save search history to localstorage.set from array
-// 3. user revisits page
-//     a. user presented with last searched city forecast
-//         1. localstorage.get (use for loop)
-
-// HTML Layout
-// -sidebar for the history
-// -search bar in header
-// -main div to hold all the weather info
-//     -daily
-//     -5 day
-
-// Functions:
-// -getWeather function - nested APIs
-// -localstorage.set function
-// -localstorage.get function
-// -on click for user search   -- diff onclick
-// -on click for history search-- diff onclick
