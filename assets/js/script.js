@@ -103,6 +103,7 @@ $(document).ready(function() {
         `http://api.openweathermap.org/data/2.5/forecast?q=${citySearched}&appid=a9fa8e4a5cdb9ab82f25d7a62cad4dc7&units=imperial`,
       type: "GET"
     }).then(function(response) {
+      console.log(response);
       $("#5-day-forecast").empty();
       // for loop to cycle through 5 day forecast api response and pull same time forecast (18:00:00) for each day
       for (var i = 0; i < response.list.length; i++) {
