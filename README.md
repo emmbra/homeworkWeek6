@@ -1,89 +1,47 @@
-# 06 Server-Side APIs: Weather Dashboard
+# Weather Dashboard
 
-Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
+[Weather Dashboard](https://emmbra.github.io/homeworkWeek6/index.html)
 
-Use the [OpenWeather API](https://openweathermap.org/api) to retrieve weather data for cities. The documentation includes a section called "How to start" that will provide basic setup and usage instructions. Use `localStorage` to store any persistent data.
+## Description
+Created a Weather Dashboard app with the following features:
 
-## User Story
-
-```
-AS A traveler
-I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
-```
-
-## Acceptance Criteria
-
-```
-GIVEN a weather dashboard with form inputs
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
-WHEN I open the weather dashboard
-THEN I am presented with the last searched city forecast
-```
-## Pseudocode
-1. user opens weather dashboard
-2. user can enter a city into a search bar
-    a. build search bar
-        1. user types something and clicks
-        2. on click, page displays current/future conditions for that city
-            a. city name
-            b. date
-            c. weather condition icon
-            d. temperature
-            e. humidity
-            f. wind speed
-            g. uv index (comes from 2nd API call)
-                1. uv index is color coded
-                    a. color #1 - favorable
-                    b. color #2 - moderate
-                    c. color #3 - severe
-            h. 5 day forecast (comes from 3rd API call)
-                1. date
-                2. weather condition icon
-                3. temperature
-                4. humidity
-        3. user can view search history
-            a. history city on click presents current/future conditions for that city
-        4. save search history to localstorage.set from array
-3. user revisits page
-    a. user presented with last searched city forecast
-        1. localstorage.get (use for loop)
-
-HTML Layout
--sidebar for the history
--search bar in header
--main div to hold all the weather info
-    -daily
-    -5 day
-
-Functions:
--getWeather function - nested APIs
--localstorage.set function
--localstorage.get function
--on click for user search   -- diff onclick
--on click for history search-- diff onclick
+* City Search:
+    * Provides current weather which includes city name, current date, weather condition icon, temperature, humidity, wind speed, and a color coded UV index.
+    * Provides 5-day-forecast which includes the future date, weather condition icon, temperature, and humidity.
+    * Adds city searched to Search History.
+* Search History:
+    * Saves cities searched to local storage.
+    * Cities in Search History can be clicked to perform a city search.
+    * Search history and local storage can be cleared with Clear History button.
 
 
-The following image demonstrates the application functionality:
+## Technologies
 
-![weather dashboard demo](./Assets/06-server-side-apis-homework-demo.png)
+* HTML5
+* CSS3
+* JavaScript
+* Bootstrap CDN
+* jQuery CDN
+* moment.js CDN
+* Open Weather API
 
-## Review
+## Challenges
 
-You are required to submit the following for review:
+In total this project took about 12 hours to build including all the time put into research and trial & error.
 
-* The URL of the deployed application.
+Difficulties included:
 
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
+* Working with APIs for the first time had a learning curve. Targeting and manipulating the data was difficult at times, but I feel like any API request in the future will be easier now that I've worked with the Open Weather API.
 
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+## Screenshots
+### Start Page
+
+![Screenshot of Weather Dashboard](https://github.com/emmbra/homeworkWeek6/blob/master/assets/images/01-screenshot-weatherdashboard.png)
+
+## Credits
+
+Thank you to Berkeley Coding Bootcamp, my instructor Emmanual Jucaban, and my TAs Musa Akbari and Sergio Di Martino for answering all my questions and helping me along the way.
+
+## License
+
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit).
