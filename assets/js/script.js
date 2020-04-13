@@ -4,6 +4,9 @@ $(document).ready(function() {
 
   // check local storage for searchHistory or create blank array
   var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  if (searchHistory) {
+    citySearched = searchHistory[searchHistory.length - 1];
+  } 
 
   // append local storage items to history bar
   for (var i = 0; i < searchHistory.length; i++) {
@@ -16,9 +19,9 @@ $(document).ready(function() {
     $("#history-bar").append(cityList);
   }
 
-  // invoke functions to display weather info for default city
-  weatherDaily();
-  weatherFiveDay();
+  // invoke functions to display weather info for last item in local storage or default city
+  weatherDaily(citySearched);
+  weatherFiveDay(citySearched);
 
   //function to retrieve the daily forecast for city searched and create html elements to display data
   //set default value to citySearched so page displays weather
